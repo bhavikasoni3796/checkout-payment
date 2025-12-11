@@ -1,7 +1,35 @@
-import React from "react";
+"use client";
+
+import React, { ChangeEvent, useState } from "react";
 import { CreditCard } from "lucide-react";
 
 const PaymentForm = () => {
+  const [cardNumber, setCardNumber] = useState<string>("");
+  const [expiry, setExpiry] = useState<string>("");
+  const [cvv, setCvv] = useState<string>("");
+  const [name, setName] = useState<string>("");
+
+  const handleCardNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\s/g, "");
+    if (value.length <= 16 && /^\d*$/.test(value)) {
+      setCardNumber(value);
+    }
+  };
+
+  const handleExpiryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "");
+    if (value.length <= 4) {
+      setExpiry(value);
+    }
+  };
+
+  const handleCvvChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\s/g, "");
+    if (value.length <= 3 && /^\d*$/.test(value)) {
+      setCvv(value);
+    }
+  };
+
   return (
     <form className="rounded-2xl p-8 border border-slate-200 shadow-sm space-y-5">
       <div className="flex gap-2 items-center mb-6">
@@ -19,6 +47,8 @@ const PaymentForm = () => {
             className="w-full px-4 py-3 border-2 rounded-xl outline-none border-slate-300 hover:border-slate-400"
             type="text"
             placeholder="1111 2222 3333 4444"
+            value={cardNumber}
+            onChange={handleCardNumberChange}
           />
           <CreditCard className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
         </div>
@@ -32,6 +62,8 @@ const PaymentForm = () => {
             className="w-full px-4 py-3 border-2 rounded-xl outline-none border-slate-300 hover:border-slate-400"
             type="text"
             placeholder="MM/YY"
+            value={expiry}
+            onChange={handleExpiryChange}
           />
         </div>
         <div className="">
@@ -42,6 +74,8 @@ const PaymentForm = () => {
             className="w-full px-4 py-3 border-2 rounded-xl outline-none border-slate-300 hover:border-slate-400"
             type="text"
             placeholder="123"
+            value={cvv}
+            onChange={handleCvvChange}
           />
         </div>
       </div>
@@ -53,6 +87,8 @@ const PaymentForm = () => {
           className="w-full px-4 py-3 border-2 rounded-xl outline-none border-slate-300 hover:border-slate-400"
           type="text"
           placeholder="John Doe"
+          value={name}
+          onChange={(e) => setName(e.target.value.trim())}
         />
       </div>
     </form>
