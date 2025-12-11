@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { CreditCard } from "lucide-react";
 import SubmitButton from "./SubmitButton";
 import usePayment from "../../../hooks/usePayment";
@@ -32,6 +33,8 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ cart }) => {
   const [expiry, setExpiry] = useState<string>("");
   const [cvv, setCvv] = useState<string>("");
   const [name, setName] = useState<string>("");
+
+  const router = useRouter();
 
   const { loading, error, success, submitPayment } = usePayment();
 
@@ -73,6 +76,12 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ cart }) => {
       cart,
     });
   };
+
+  useEffect(() => {
+    if (success) {
+      router.push("/success");
+    }
+  }, [success]);
 
   return (
     <form
