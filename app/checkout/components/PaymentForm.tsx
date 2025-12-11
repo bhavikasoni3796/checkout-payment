@@ -3,6 +3,7 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { CreditCard } from "lucide-react";
 import usePayment from "@/hooks/usePayment";
+import { formatCardNumber, formatExpiry } from "../utils/formatters";
 
 interface CartItem {
   id: number;
@@ -30,14 +31,14 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ cart }) => {
   const handleCardNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s/g, "");
     if (value.length <= 16 && /^\d*$/.test(value)) {
-      setCardNumber(value);
+      setCardNumber(formatCardNumber(value));
     }
   };
 
   const handleExpiryChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 4) {
-      setExpiry(value);
+      setExpiry(formatExpiry(value));
     }
   };
 
