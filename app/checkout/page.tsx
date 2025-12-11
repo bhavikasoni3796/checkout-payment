@@ -2,7 +2,25 @@ import React from "react";
 import PaymentForm from "./components/PaymentForm";
 import CartSummary from "./components/CartSummary";
 
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface Cart {
+  items: CartItem[];
+}
+
 const CheckoutApp = () => {
+  const cart: Cart = {
+    items: [
+      { id: 1, name: "Product A", price: 499, quantity: 1 },
+      { id: 2, name: "Product B", price: 999, quantity: 2 },
+    ],
+  };
+
   return (
     <div className="py-12 px-4 min-h-screen">
       <div className="max-w-6xl mx-auto">
@@ -15,7 +33,7 @@ const CheckoutApp = () => {
             <PaymentForm />
           </div>
           <div>
-            <CartSummary />
+            <CartSummary items={cart.items} />
           </div>
         </div>
       </div>
