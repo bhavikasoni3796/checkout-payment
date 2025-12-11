@@ -1,3 +1,4 @@
+import { ShoppingCart } from "lucide-react";
 import React from "react";
 
 interface CartItem {
@@ -13,8 +14,9 @@ interface CartSummaryProps {
 
 const CartSummary: React.FC<CartSummaryProps> = ({ items }) => {
   return (
-    <div className="rounded-2xl border border-slate-200 p-6">
+    <div className="rounded-2xl border border-slate-200 p-6 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
+        <ShoppingCart className="w-5 h-5 text-slate-600" />
         <h2>Order Summary</h2>
       </div>
       <div className="space-y-3 mb-4">
