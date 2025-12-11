@@ -1,13 +1,31 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { CreditCard } from "lucide-react";
+import usePayment from "@/hooks/usePayment";
 
-const PaymentForm = () => {
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface Cart {
+  items: CartItem[];
+}
+
+interface PaymentFormProps {
+  cart: Cart;
+}
+
+const PaymentForm: React.FC<PaymentFormProps> = ({ cart }) => {
   const [cardNumber, setCardNumber] = useState<string>("");
   const [expiry, setExpiry] = useState<string>("");
   const [cvv, setCvv] = useState<string>("");
   const [name, setName] = useState<string>("");
+
+  const { loading, error, success, submitPayment } = usePayment();
 
   const handleCardNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s/g, "");
@@ -30,8 +48,23 @@ const PaymentForm = () => {
     }
   };
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    await submitPayment({
+      cardNumber,
+      expiry,
+      cvv,
+      name,
+      cart,
+    });
+  };
+
   return (
-    <form className="rounded-2xl p-8 border border-slate-200 shadow-sm space-y-5">
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-2xl p-8 border border-slate-200 shadow-sm space-y-5"
+    >
       <div className="flex gap-2 items-center mb-6">
         <CreditCard className="w-6 h-6 text-slate-700" />
         <h2 className="text-2xl font-semibold text-slate-800">
